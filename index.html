@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valley Electrical & Plumbing | Professional Home Services</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0056b3;
+            --secondary: #f8b500;
+            --dark: #333;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --success: #28a745;
+            --shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: #fff;
+        }
+        
+        h1, h2, h3, h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 1rem;
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            color: white;
+        }
+        
+        h2 {
+            font-size: 2.2rem;
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 2.5rem;
+            position: relative;
+        }
+        
+        h2:after {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 4px;
+            background: var(--secondary);
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        h3 {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+        
+        p {
+            margin-bottom: 1.2rem;
+            color: var(--gray);
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 28px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .btn:hover {
+            background-color: #004494;
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+        
+        .btn-secondary {
+            background-color: var(--secondary);
+            color: var(--dark);
+        }
+        
+        .btn-secondary:hover {
+            background-color: #e6a700;
+        }
+        
+        /* Header & Navigation */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo h2 {
+            color: var(--primary);
+            margin: 0;
+            font-size: 1.8rem;
+        }
+        
+        .logo span {
+            color: var(--secondary);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 2rem;
+        }
+        
+        nav ul li a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 600;
+            font-size: 1rem;
+            transition: color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            color: var(--primary);
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            font-size: 1.5rem;
+            background: none;
+            border: none;
+            color: var(--primary);
+            cursor: pointer;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                        url('https://images.unsplash.com/photo-1621905252507-b35492cc74b4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 180px 20px 120px;
+            margin-top: 80px;
+        }
+        
+        .hero h1 {
+            margin-bottom: 1.5rem;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 2.5rem;
+            color: #eee;
+        }
+        
+        /* Services Section */
+        .services {
+            padding: 80px 20px;
+            background-color: var(--light);
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .service-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .service-img {
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+        }
+        
+        .service-content {
+            padding: 25px;
+        }
+        
+        .service-content h3 {
+            margin-bottom: 15px;
+        }
+        
+        /* Why Choose Us */
+        .why-us {
+            padding: 80px 20px;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .feature {
+            text-align: center;
+            padding: 30px 20px;
+        }
+        
+        .feature i {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        
+        /* Contact Section */
+        .contact {
+            padding: 80px 20px;
+            background-color: var(--light);
+        }
+        
+        .contact-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 50px;
+            margin-top: 40px;
+        }
+        
+        .contact-info h3 {
+            margin-bottom: 20px;
+        }
+        
+        .contact-detail {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 25px;
+        }
+        
+        .contact-detail i {
+            color: var(--primary);
+            font-size: 1.2rem;
+            margin-right: 15px;
+            margin-top: 5px;
+        }
+        
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: 'Open Sans', sans-serif;
+        }
+        
+        .contact-form textarea {
+            height: 150px;
+            resize: vertical;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 60px 20px 30px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-logo h3 {
+            color: white;
+            margin-bottom: 10px;
+        }
+        
+        .footer-logo span {
+            color: var(--secondary);
+        }
+        
+        .footer-links h4,
+        .footer-services h4 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+        
+        .footer-links ul,
+        .footer-services ul {
+            list-style: none;
+        }
+        
+        .footer-links ul li,
+        .footer-services ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links ul li a,
+        .footer-services ul li a {
+            color: #bbb;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links ul li a:hover,
+        .footer-services ul li a:hover {
+            color: var(--secondary);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #444;
+            color: #bbb;
+            font-size: 0.9rem;
+        }
+        
+        /* Page Content */
+        .page-content {
+            margin-top: 120px;
+            padding: 60px 20px;
+            min-height: 60vh;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            h1 {
+                font-size: 2.4rem;
+            }
+            
+            h2 {
+                font-size: 2rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            nav {
+                position: fixed;
+                top: 80px;
+                left: 0;
+                width: 100%;
+                background-color: white;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+                padding: 20px;
+                transform: translateY(-100%);
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease;
+            }
+            
+            nav.active {
+                transform: translateY(0);
+                opacity: 1;
+                visibility: visible;
+            }
+            
+            nav ul {
+                flex-direction: column;
+            }
+            
+            nav ul li {
+                margin: 0 0 15px 0;
+            }
+            
+            .hero {
+                padding: 150px 20px 100px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            h2 {
+                font-size: 1.8rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <h2>Valley <span>Electrical & Plumbing</span></h2>
+            </div>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav id="mainNav">
+                <ul>
+                    <li><a href="#home" class="nav-link">Home</a></li>
+                    <li><a href="#services" class="nav-link">Services</a></li>
+                    <li><a href="#about" class="nav-link">About Us</a></li>
+                    <li><a href="#contact" class="nav-link">Contact</a></li>
+                    <li><a href="tel:+15551234567" class="btn">Call Now</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content Area (Multi-page simulation) -->
+    <main id="content">
+        <!-- Home Page -->
+        <section id="home" class="page active">
+            <!-- Hero Section -->
+            <div class="hero">
+                <div class="container">
+                    <h1>Professional Electrical & Plumbing Services</h1>
+                    <p>Valley Electrical & Plumbing provides reliable, high-quality services for residential and commercial clients. Our licensed professionals are ready to handle all your electrical and plumbing needs with excellence.</p>
+                    <a href="#contact" class="btn btn-secondary">Get Free Estimate</a>
+                    <a href="tel:+15551234567" class="btn">Call Now: (555) 123-4567</a>
+                </div>
+            </div>
+
+            <!-- Services Preview -->
+            <section class="services" id="services">
+                <div class="container">
+                    <h2>Our Professional Services</h2>
+                    <div class="services-grid">
+                        <div class="service-card">
+                            <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80" alt="Electrical Installation" class="service-img">
+                            <div class="service-content">
+                                <h3>Electrical Services</h3>
+                                <p>From wiring and installations to repairs and maintenance, our certified electricians ensure your electrical systems are safe and up to code.</p>
+                                <a href="#services-page" class="btn">Learn More</a>
+                            </div>
+                        </div>
+                        <div class="service-card">
+                            <img src="https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80" alt="Plumbing Repair" class="service-img">
+                            <div class="service-content">
+                                <h3>Plumbing Services</h3>
+                                <p>Comprehensive plumbing solutions including leak detection, pipe repairs, fixture installations, and water heater services.</p>
+                                <a href="#services-page" class="btn">Learn More</a>
+                            </div>
+                        </div>
+                        <div class="service-card">
+                            <img src="https://images.unsplash.com/photo-1621967299229-c6e7085b9e1f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Emergency Services" class="service-img">
+                            <div class="service-content">
+                                <h3>24/7 Emergency Services</h3>
+                                <p>We're available around the clock for urgent electrical and plumbing emergencies to protect your home and family.</p>
+                                <a href="#contact" class="btn">Contact Us</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Why Choose Us -->
+            <section class="why-us">
+                <div class="container">
+                    <h2>Why Choose Valley Electrical & Plumbing</h2>
+                    <div class="features">
+                        <div class="feature">
+                            <i class="fas fa-award"></i>
+                            <h3>Licensed & Insured</h3>
+                            <p>All our technicians are fully licensed, bonded, and insured for your protection and peace of mind.</p>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-clock"></i>
+                            <h3>Prompt Service</h3>
+                            <p>We respect your time and guarantee prompt arrival with same-day service for most issues.</p>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-dollar-sign"></i>
+                            <h3>Fair Pricing</h3>
+                            <p>Transparent, upfront pricing with no hidden fees. We provide free estimates for all projects.</p>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-thumbs-up"></i>
+                            <h3>Quality Guarantee</h3>
+                            <p>We stand behind our work with a 100% satisfaction guarantee on all services provided.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Contact Preview -->
+            <section class="contact" id="contact">
+                <div class="container">
+                    <h2>Contact Us Today</h2>
+                    <div class="contact-container">
+                        <div class="contact-info">
+                            <h3>Get In Touch</h3>
+                            <p>Ready to solve your electrical or plumbing issues? Contact us for a free estimate or emergency service.</p>
+                            <div class="contact-detail">
+                                <i class="fas fa-phone"></i>
+                                <div>
+                                    <h4>Phone</h4>
+                                    <p>(555) 123-4567</p>
+                                </div>
+                            </div>
+                            <div class="contact-detail">
+                                <i class="fas fa-envelope"></i>
+                                <div>
+                                    <h4>Email</h4>
+                                    <p>service@valleyep.com</p>
+                                </div>
+                            </div>
+                            <div class="contact-detail">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <div>
+                                    <h4>Service Area</h4>
+                                    <p>Serving the entire Valley region and surrounding communities</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="contact-form">
+                            <form id="contactForm">
+                                <input type="text" placeholder="Your Name" required>
+                                <input type="email" placeholder="Your Email" required>
+                                <input type="tel" placeholder="Your Phone">
+                                <select required>
+                                    <option value="" disabled selected>Select Service Type</option>
+                                    <option value="electrical">Electrical Services</option>
+                                    <option value="plumbing">Plumbing Services</option>
+                                    <option value="emergency">Emergency Services</option>
+                                    <option value="other">Other</option>
+                                </select>
+                                <textarea placeholder="Describe your issue or project" required></textarea>
+                                <button type="submit" class="btn">Send Message</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+
+        <!-- Services Page -->
+        <section id="services-page" class="page">
+            <div class="page-content">
+                <div class="container">
+                    <h2>Our Services</h2>
+                    <p class="subtitle">Comprehensive electrical and plumbing solutions for residential and commercial properties</p>
+                    
+                    <div class="services-detail">
+                        <div class="service-category">
+                            <h3><i class="fas fa-bolt"></i> Electrical Services</h3>
+                            <ul>
+                                <li>Electrical panel upgrades and replacements</li>
+                                <li>Lighting installation and repair</li>
+                                <li>Outlet and switch installation</li>
+                                <li>Ceiling fan installation</li>
+                                <li>Circuit breaker troubleshooting</li>
+                                <li>Whole-house rewiring</li>
+                                <li>Surge protection installation</li>
+                                <li>Generator installation and maintenance</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="service-category">
+                            <h3><i class="fas fa-tint"></i> Plumbing Services</h3>
+                            <ul>
+                                <li>Leak detection and repair</li>
+                                <li>Pipe installation and replacement</li>
+                                <li>Water heater installation and repair</li>
+                                <li>Drain cleaning and unclogging</li>
+                                <li>Toilet, faucet, and shower installation</li>
+                                <li>Water pressure adjustment</li>
+                                <li>Sump pump installation</li>
+                                <li>Water line repair and replacement</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="service-category">
+                            <h3><i class="fas fa-home"></i> Home Safety Services</h3>
+                            <ul>
+                                <li>GFCI outlet installation</li>
+                                <li>Smoke and carbon monoxide detector installation</li>
+                                <li>Electrical safety inspections</li>
+                                <li>Plumbing system inspections</li>
+                                <li>Water quality testing</li>
+                                <li>Backflow prevention device installation</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="service-category">
+                            <h3><i class="fas fa-hard-hat"></i> Commercial Services</h3>
+                            <ul>
+                                <li>Commercial electrical installations</li>
+                                <li>Office lighting upgrades</li>
+                                <li>Plumbing system design and installation</li>
+                                <li>Preventive maintenance contracts</li>
+                                <li>Code compliance inspections</li>
+                                <li>Emergency repair services</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 40px;">
+                        <a href="#contact" class="btn btn-secondary">Schedule a Service</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Us Page -->
+        <section id="about" class="page">
+            <div class="page-content">
+                <div class="container">
+                    <h2>About Valley Electrical & Plumbing</h2>
+                    <div class="about-content">
+                        <div style="max-width: 800px; margin: 0 auto;">
+                            <p>Founded with a commitment to excellence, Valley Electrical & Plumbing has been serving the local community for over 15 years. Our mission is to provide reliable, high-quality electrical and plumbing services with honesty and integrity.</p>
+                            
+                            <h3 style="margin-top: 30px;">Our Story</h3>
+                            <p>What started as a small family-owned operation has grown into a trusted name in the Valley region. Owner and founder, Michael Thompson, began his career as an apprentice electrician and quickly realized the need for a service company that combined technical expertise with old-fashioned customer service values.</p>
+                            
+                            <h3 style="margin-top: 30px;">Our Team</h3>
+                            <p>Our team consists of licensed electricians and plumbers who undergo continuous training to stay current with the latest technologies, safety standards, and building codes. We believe in treating every customer's home as if it were our own.</p>
+                            
+                            <h3 style="margin-top: 30px;">Our Values</h3>
+                            <ul style="margin-left: 20px; margin-bottom: 30px;">
+                                <li><strong>Integrity:</strong> We're honest about what needs to be done and provide fair, transparent pricing.</li>
+                                <li><strong>Quality:</strong> We use only high-quality materials and stand behind our work with solid guarantees.</li>
+                                <li><strong>Reliability:</strong> When we say we'll be there, we show up on time and get the job done right.</li>
+                                <li><strong>Safety:</strong> We prioritize safety in every project, following all codes and best practices.</li>
+                            </ul>
+                            
+                            <div style="text-align: center; margin-top: 40px;">
+                                <a href="#contact" class="btn">Contact Us Today</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h3>Valley <span>Electrical & Plumbing</span></h3>
+                    <p>Professional, reliable electrical and plumbing services for the Valley region. Licensed, insured, and ready to serve you.</p>
+                    <div class="social-icons" style="margin-top: 20px;">
+                        <a href="#" style="color: white; margin-right: 15px; font-size: 1.2rem;"><i class="fab fa-facebook"></i></a>
+                        <a href="#" style="color: white; margin-right: 15px; font-size: 1.2rem;"><i class="fab fa-twitter"></i></a>
+                        <a href="#" style="color: white; margin-right: 15px; font-size: 1.2rem;"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-services">
+                    <h4>Our Services</h4>
+                    <ul>
+                        <li><a href="#services-page">Electrical Services</a></li>
+                        <li><a href="#services-page">Plumbing Services</a></li>
+                        <li><a href="#services-page">Emergency Services</a></li>
+                        <li><a href="#services-page">Commercial Services</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Contact Info</h4>
+                    <p><i class="fas fa-phone" style="margin-right: 10px;"></i> (555) 123-4567</p>
+                    <p><i class="fas fa-envelope" style="margin-right: 10px;"></i> service@valleyep.com</p>
+                    <p><i class="fas fa-map-marker-alt" style="margin-right: 10px;"></i> Valley Region, Service Area</p>
+                    <p><i class="fas fa-clock" style="margin-right: 10px;"></i> 24/7 Emergency Services</p>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 Valley Electrical & Plumbing. All rights reserved. | Licensed, Bonded & Insured</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mainNav = document.getElementById('mainNav');
+        const navLinks = document.querySelectorAll('.nav-link');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            mainNav.classList.toggle('active');
+            mobileMenuBtn.innerHTML = mainNav.classList.contains('active') 
+                ? '<i class="fas fa-times"></i>' 
+                : '<i class="fas fa-bars"></i>';
+        });
+        
+        // Close mobile menu when clicking a link
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mainNav.classList.remove('active');
+                mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+            });
+        });
+        
+        // Simple page navigation
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetPage = this.getAttribute('href').substring(1);
+                
+                // Hide all pages
+                document.querySelectorAll('.page').forEach(page => {
+                    page.classList.remove('active');
+                });
+                
+                // Show target page
+                document.getElementById(targetPage).classList.add('active');
+                
+                // Update URL without reloading
+                history.pushState(null, null, `#${targetPage}`);
+                
+                // Scroll to top of page
+                window.scrollTo(0, 0);
+            });
+        });
+        
+        // Handle initial page load based on URL hash
+        window.addEventListener('DOMContentLoaded', () => {
+            const hash = window.location.hash.substring(1) || 'home';
+            
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Show the correct page
+            const targetPage = document.getElementById(hash);
+            if (targetPage) {
+                targetPage.classList.add('active');
+            } else {
+                document.getElementById('home').classList.add('active');
+            }
+        });
+        
+        // Contact form submission
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you for your message! We will contact you within 24 hours.');
+            this.reset();
+        });
+        
+        // Sticky header on scroll
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
+            } else {
+                header.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+            }
+        });
+    </script>
+</body>
+</html>
