@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Valley Electrical & Plumbing | Professional Home Services</title>
+    <title>Valley Electrical & Plumbing | Professional Home Services in Scranton, PA</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
         :root {
             --primary: #0056b3;
@@ -154,10 +155,25 @@
             font-weight: 600;
             font-size: 1rem;
             transition: color 0.3s;
+            position: relative;
         }
         
         nav ul li a:hover {
             color: var(--primary);
+        }
+        
+        nav ul li a.active {
+            color: var(--primary);
+        }
+        
+        nav ul li a.active:after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 3px;
+            background: var(--secondary);
+            bottom: -5px;
+            left: 0;
         }
         
         .mobile-menu-btn {
@@ -285,7 +301,8 @@
         }
         
         .contact-form input,
-        .contact-form textarea {
+        .contact-form textarea,
+        .contact-form select {
             width: 100%;
             padding: 12px 15px;
             margin-bottom: 20px;
@@ -297,6 +314,49 @@
         .contact-form textarea {
             height: 150px;
             resize: vertical;
+        }
+        
+        /* Map Section */
+        .map-section {
+            padding: 80px 20px;
+        }
+        
+        #map {
+            height: 400px;
+            width: 100%;
+            border-radius: 8px;
+            margin-top: 30px;
+            box-shadow: var(--shadow);
+        }
+        
+        /* Gallery Section */
+        .gallery {
+            padding: 80px 20px;
+            background-color: var(--light);
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+        
+        .gallery-item {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.05);
         }
         
         /* Footer */
@@ -428,6 +488,28 @@
                 font-size: 1rem;
             }
         }
+        
+        /* Form Status Messages */
+        .form-message {
+            padding: 12px 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .form-message.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+        
+        .form-message.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -442,11 +524,12 @@
             </button>
             <nav id="mainNav">
                 <ul>
-                    <li><a href="#home" class="nav-link">Home</a></li>
+                    <li><a href="#home" class="nav-link active">Home</a></li>
                     <li><a href="#services" class="nav-link">Services</a></li>
+                    <li><a href="#gallery" class="nav-link">Gallery</a></li>
                     <li><a href="#about" class="nav-link">About Us</a></li>
                     <li><a href="#contact" class="nav-link">Contact</a></li>
-                    <li><a href="tel:+15551234567" class="btn">Call Now</a></li>
+                    <li><a href="tel:15708402595" class="btn">Call Now</a></li>
                 </ul>
             </nav>
         </div>
@@ -459,10 +542,10 @@
             <!-- Hero Section -->
             <div class="hero">
                 <div class="container">
-                    <h1>Professional Electrical & Plumbing Services</h1>
-                    <p>Valley Electrical & Plumbing provides reliable, high-quality services for residential and commercial clients. Our licensed professionals are ready to handle all your electrical and plumbing needs with excellence.</p>
+                    <h1>Professional Electrical & Plumbing Services in Scranton, PA</h1>
+                    <p>Valley Electrical & Plumbing provides reliable, high-quality services for residential and commercial clients in Scranton and surrounding areas. Our licensed professionals are ready to handle all your electrical and plumbing needs with excellence.</p>
                     <a href="#contact" class="btn btn-secondary">Get Free Estimate</a>
-                    <a href="tel:+15551234567" class="btn">Call Now: (555) 123-4567</a>
+                    <a href="tel:15708402595" class="btn">Call Now: (570) 840-2595</a>
                 </div>
             </div>
 
@@ -499,6 +582,28 @@
                 </div>
             </section>
 
+            <!-- Gallery Preview -->
+            <section class="gallery" id="gallery">
+                <div class="container">
+                    <h2>Our Work Gallery</h2>
+                    <p style="text-align: center; max-width: 800px; margin: 0 auto 30px;">See examples of our professional electrical and plumbing work for residential and commercial clients in Scranton, PA.</p>
+                    <div class="gallery-grid">
+                        <div class="gallery-item">
+                            <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80" alt="Electrical Panel Installation">
+                        </div>
+                        <div class="gallery-item">
+                            <img src="https://images.unsplash.com/photo-1621967299229-c6e7085b9e1f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Bathroom Plumbing">
+                        </div>
+                        <div class="gallery-item">
+                            <img src="https://images.unsplash.com/photo-1600607686527-6fb886090705?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2067&q=80" alt="Kitchen Plumbing">
+                        </div>
+                        <div class="gallery-item">
+                            <img src="https://images.unsplash.com/photo-1621905252507-b35492cc74b4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80" alt="Commercial Electrical">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <!-- Why Choose Us -->
             <section class="why-us">
                 <div class="container">
@@ -528,6 +633,15 @@
                 </div>
             </section>
 
+            <!-- Map Section -->
+            <section class="map-section">
+                <div class="container">
+                    <h2>Our Location & Service Area</h2>
+                    <p style="text-align: center; max-width: 800px; margin: 0 auto 30px;">We proudly serve Scranton, PA and surrounding communities. Visit us at our location or give us a call for service anywhere in the Valley region.</p>
+                    <div id="map"></div>
+                </div>
+            </section>
+
             <!-- Contact Preview -->
             <section class="contact" id="contact">
                 <div class="container">
@@ -540,7 +654,7 @@
                                 <i class="fas fa-phone"></i>
                                 <div>
                                     <h4>Phone</h4>
-                                    <p>(555) 123-4567</p>
+                                    <p>(570) 840-2595</p>
                                 </div>
                             </div>
                             <div class="contact-detail">
@@ -553,25 +667,34 @@
                             <div class="contact-detail">
                                 <i class="fas fa-map-marker-alt"></i>
                                 <div>
-                                    <h4>Service Area</h4>
-                                    <p>Serving the entire Valley region and surrounding communities</p>
+                                    <h4>Address</h4>
+                                    <p>1029 Price St, Scranton, PA 18504</p>
+                                </div>
+                            </div>
+                            <div class="contact-detail">
+                                <i class="fas fa-clock"></i>
+                                <div>
+                                    <h4>Business Hours</h4>
+                                    <p>24/7 Emergency Services Available<br>Mon-Fri: 8am-6pm<br>Sat: 9am-4pm<br>Sun: Emergency Only</p>
                                 </div>
                             </div>
                         </div>
                         <div class="contact-form">
+                            <div id="formMessage" class="form-message"></div>
                             <form id="contactForm">
-                                <input type="text" placeholder="Your Name" required>
-                                <input type="email" placeholder="Your Email" required>
-                                <input type="tel" placeholder="Your Phone">
-                                <select required>
+                                <input type="text" id="name" placeholder="Your Name" required>
+                                <input type="email" id="email" placeholder="Your Email" required>
+                                <input type="tel" id="phone" placeholder="Your Phone">
+                                <select id="serviceType" required>
                                     <option value="" disabled selected>Select Service Type</option>
                                     <option value="electrical">Electrical Services</option>
                                     <option value="plumbing">Plumbing Services</option>
                                     <option value="emergency">Emergency Services</option>
+                                    <option value="estimate">Free Estimate</option>
                                     <option value="other">Other</option>
                                 </select>
-                                <textarea placeholder="Describe your issue or project" required></textarea>
-                                <button type="submit" class="btn">Send Message</button>
+                                <textarea id="message" placeholder="Describe your issue or project" required></textarea>
+                                <button type="submit" class="btn" id="submitBtn">Send Message</button>
                             </form>
                         </div>
                     </div>
@@ -584,58 +707,58 @@
             <div class="page-content">
                 <div class="container">
                     <h2>Our Services</h2>
-                    <p class="subtitle">Comprehensive electrical and plumbing solutions for residential and commercial properties</p>
+                    <p class="subtitle" style="text-align: center; max-width: 800px; margin: 0 auto 40px;">Comprehensive electrical and plumbing solutions for residential and commercial properties in Scranton, PA and surrounding areas</p>
                     
                     <div class="services-detail">
-                        <div class="service-category">
+                        <div class="service-category" style="margin-bottom: 40px; padding: 30px; background: #f9f9f9; border-radius: 8px;">
                             <h3><i class="fas fa-bolt"></i> Electrical Services</h3>
-                            <ul>
-                                <li>Electrical panel upgrades and replacements</li>
-                                <li>Lighting installation and repair</li>
-                                <li>Outlet and switch installation</li>
-                                <li>Ceiling fan installation</li>
-                                <li>Circuit breaker troubleshooting</li>
-                                <li>Whole-house rewiring</li>
-                                <li>Surge protection installation</li>
-                                <li>Generator installation and maintenance</li>
+                            <ul style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 15px; list-style: none;">
+                                <li><i class="fas fa-check" style="color: var(--success); margin-right: 10px;"></i> Electrical panel upgrades and replacements</li>
+                                <li><i class="fas fa-check" style="color: var(--success); margin-right: 10px;"></i> Lighting installation and repair</li>
+                                <li><i class="fas fa-check" style="color: var(--success); margin-right: 10px;"></i> Outlet and switch installation</li>
+                                <li><i class="fas fa-check" style="color: var(--success); margin-right: 10px;"></i> Ceiling fan installation</li>
+                                <li><i class="fas fa-check" style="color: var(--success); margin-right: 10px;"></i> Circuit breaker troubleshooting</li>
+                                <li><i class="fas fa-check" style="color: var(--success); margin-right: 10px;"></i> Whole-house rewiring</li>
+                                <li><i class="fas fa-check" style="color: var(--success); margin-right: 10px;"></i> Surge protection installation</li>
+                                <li><i class="fas fa-check" style="color: var(--success); margin-right: 10px;"></i> Generator installation and maintenance</li>
                             </ul>
                         </div>
                         
-                        <div class="service-category">
+                        <div class="service-category" style="margin-bottom: 40px; padding: 30px; background: #f9f9f9; border-radius: 8px;">
                             <h3><i class="fas fa-tint"></i> Plumbing Services</h3>
-                            <ul>
-                                <li>Leak detection and repair</li>
-                                <li>Pipe installation and replacement</li>
-                                <li>Water heater installation and repair</li>
-                                <li>Drain cleaning and unclogging</li>
-                                <li>Toilet, faucet, and shower installation</li>
-                                <li>Water pressure adjustment</li>
-                                <li>Sump pump installation</li>
-                                <li>Water line repair and replacement</li>
+                            <ul style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 15px; list-style: none;">
+                                <li><i class="fas fa-check" style="color: var(--success); margin-right: 10px;"></i> Leak detection and repair</li>
+                                <li><i class="fas fa-check" style="color: var(--success); margin-right: 10px;"></i> Pipe installation and replacement</li>
+                                <li><i class="fas fa-check" style="color: var(--success); margin-right: 10px;"></i> Water heater installation and repair</li>
+                                <li><i class="fas fa-check" style="color: var(--success); margin-right: 10px;"></i> Drain cleaning and unclogging</li>
+                                <li><i class="fas fa-check" style="color: var(--success); margin-right: 10px;"></i> Toilet, faucet, and shower installation</li>
+                                <li><i class="fas fa-check" style="color: var(--success); margin-right: 10px;"></i> Water pressure adjustment</li>
+                                <li><i class="fas fa-check" style="color: var(--success); margin-right: 10px;"></i> Sump pump installation</li>
+                                <li><i class="fas fa-check" style="color: var(--success); margin-right: 10px;"></i> Water line repair and replacement</li>
                             </ul>
                         </div>
                         
-                        <div class="service-category">
+                        <div class="service-category" style="margin-bottom: 40px; padding: 30px; background: #f9f9f9; border-radius: 8px;">
                             <h3><i class="fas fa-home"></i> Home Safety Services</h3>
-                            <ul>
-                                <li>GFCI outlet installation</li>
-                                <li>Smoke and carbon monoxide detector installation</li>
-                                <li>Electrical safety inspections</li>
-                                <li>Plumbing system inspections</li>
-                                <li>Water quality testing</li>
-                                <li>Backflow prevention device installation</li>
+                            <ul style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 15px; list-style: none;">
+                                <li><i class="fas fa-check" style="color: var(--success); margin-right: 10px;"></i> GFCI outlet installation</li>
+                                <li><i class="fas fa-check" style="color: var(--success); margin-right: 10px;"></i> Smoke and carbon monoxide detector installation</li>
+                                <li><i class="fas fa-check" style="color: var(--success); margin-right: 10px;"></i> Electrical safety inspections</li>
+                                <li><i class="fas fa-check" style="color: var(--success); margin-right: 10px;"></i> Plumbing system inspections</li>
+                                <li><i class="fas fa-check" style="color: var(--success); margin-right: 10px;"></i> Water quality testing</li>
+                                <li><i class="fas fa-check" style="color: var(--success); margin-right: 10px;"></i> Backflow prevention device installation</li>
                             </ul>
                         </div>
                         
-                        <div class="service-category">
+                        <div class="service-category" style="margin-bottom: 40px; padding: 30px; background: #f9f9f9; border-radius: 8px;">
                             <h3><i class="fas fa-hard-hat"></i> Commercial Services</h3>
-                            <ul>
-                                <li>Commercial electrical installations</li>
-                                <li>Office lighting upgrades</li>
-                                <li>Plumbing system design and installation</li>
-                                <li>Preventive maintenance contracts</li>
-                                <li>Code compliance inspections</li>
-                                <li>Emergency repair services</li>
+                            <ul style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 15px; list-style: none;">
+                                <li><i class="fas fa-check" style="color: var(--success); margin-right: 10px;"></i> Commercial electrical installations</li>
+                                <li><i class="fas fa-check" style="color: var(--success); margin-right: 10px;"></i> Office lighting upgrades</li>
+                                <li><i class="fas fa-check" style="color: var(--success); margin-right: 10px;"></i> Plumbing system design and installation</li>
+                                <li><i class="fas fa-check" style="color: var(--success); margin-right: 10px;"></i> Preventive maintenance contracts</li>
+                                <li><i class="fas fa-check" style="color: var(--success); margin-right: 10px;"></i> Code compliance inspections</li>
+                                <li><i class="fas fa-check" style="color: var(--success); margin-right: 10px;"></i> Emergency repair services</li>
                             </ul>
                         </div>
                     </div>
@@ -654,7 +777,7 @@
                     <h2>About Valley Electrical & Plumbing</h2>
                     <div class="about-content">
                         <div style="max-width: 800px; margin: 0 auto;">
-                            <p>Founded with a commitment to excellence, Valley Electrical & Plumbing has been serving the local community for over 15 years. Our mission is to provide reliable, high-quality electrical and plumbing services with honesty and integrity.</p>
+                            <p>Founded with a commitment to excellence, Valley Electrical & Plumbing has been serving Scranton, PA and the surrounding community for over 15 years. Our mission is to provide reliable, high-quality electrical and plumbing services with honesty and integrity.</p>
                             
                             <h3 style="margin-top: 30px;">Our Story</h3>
                             <p>What started as a small family-owned operation has grown into a trusted name in the Valley region. Owner and founder, Michael Thompson, began his career as an apprentice electrician and quickly realized the need for a service company that combined technical expertise with old-fashioned customer service values.</p>
@@ -668,6 +791,7 @@
                                 <li><strong>Quality:</strong> We use only high-quality materials and stand behind our work with solid guarantees.</li>
                                 <li><strong>Reliability:</strong> When we say we'll be there, we show up on time and get the job done right.</li>
                                 <li><strong>Safety:</strong> We prioritize safety in every project, following all codes and best practices.</li>
+                                <li><strong>Community:</strong> We're proud to be part of the Scranton community and support local businesses.</li>
                             </ul>
                             
                             <div style="text-align: center; margin-top: 40px;">
@@ -686,7 +810,7 @@
             <div class="footer-content">
                 <div class="footer-logo">
                     <h3>Valley <span>Electrical & Plumbing</span></h3>
-                    <p>Professional, reliable electrical and plumbing services for the Valley region. Licensed, insured, and ready to serve you.</p>
+                    <p>Professional, reliable electrical and plumbing services for Scranton, PA and the Valley region. Licensed, insured, and ready to serve you.</p>
                     <div class="social-icons" style="margin-top: 20px;">
                         <a href="#" style="color: white; margin-right: 15px; font-size: 1.2rem;"><i class="fab fa-facebook"></i></a>
                         <a href="#" style="color: white; margin-right: 15px; font-size: 1.2rem;"><i class="fab fa-twitter"></i></a>
@@ -698,6 +822,7 @@
                     <ul>
                         <li><a href="#home">Home</a></li>
                         <li><a href="#services">Services</a></li>
+                        <li><a href="#gallery">Gallery</a></li>
                         <li><a href="#about">About Us</a></li>
                         <li><a href="#contact">Contact</a></li>
                     </ul>
@@ -713,9 +838,9 @@
                 </div>
                 <div class="footer-contact">
                     <h4>Contact Info</h4>
-                    <p><i class="fas fa-phone" style="margin-right: 10px;"></i> (555) 123-4567</p>
+                    <p><i class="fas fa-phone" style="margin-right: 10px;"></i> (570) 840-2595</p>
                     <p><i class="fas fa-envelope" style="margin-right: 10px;"></i> service@valleyep.com</p>
-                    <p><i class="fas fa-map-marker-alt" style="margin-right: 10px;"></i> Valley Region, Service Area</p>
+                    <p><i class="fas fa-map-marker-alt" style="margin-right: 10px;"></i> 1029 Price St, Scranton, PA 18504</p>
                     <p><i class="fas fa-clock" style="margin-right: 10px;"></i> 24/7 Emergency Services</p>
                 </div>
             </div>
@@ -725,32 +850,39 @@
         </div>
     </footer>
 
+    <!-- Leaflet JS for Map -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        // Mobile Menu Toggle
+        // Mobile Menu Toggle - FIXED
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
         const mainNav = document.getElementById('mainNav');
         const navLinks = document.querySelectorAll('.nav-link');
         
-        mobileMenuBtn.addEventListener('click', () => {
+        mobileMenuBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
             mainNav.classList.toggle('active');
             mobileMenuBtn.innerHTML = mainNav.classList.contains('active') 
                 ? '<i class="fas fa-times"></i>' 
                 : '<i class="fas fa-bars"></i>';
         });
         
-        // Close mobile menu when clicking a link
-        navLinks.forEach(link => {
-            link.addEventListener('click', () => {
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!mainNav.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
                 mainNav.classList.remove('active');
                 mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
-            });
+            }
         });
         
-        // Simple page navigation
+        // Navigation with smooth scrolling and page switching - FIXED
         document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', function(e) {
                 e.preventDefault();
-                const targetPage = this.getAttribute('href').substring(1);
+                const targetId = this.getAttribute('href').substring(1);
+                
+                // Update active nav link
+                navLinks.forEach(navLink => navLink.classList.remove('active'));
+                this.classList.add('active');
                 
                 // Hide all pages
                 document.querySelectorAll('.page').forEach(page => {
@@ -758,19 +890,39 @@
                 });
                 
                 // Show target page
-                document.getElementById(targetPage).classList.add('active');
+                const targetPage = document.getElementById(targetId);
+                if (targetPage) {
+                    targetPage.classList.add('active');
+                } else {
+                    // Fallback to home
+                    document.getElementById('home').classList.add('active');
+                    document.querySelector('.nav-link[href="#home"]').classList.add('active');
+                }
                 
-                // Update URL without reloading
-                history.pushState(null, null, `#${targetPage}`);
+                // Close mobile menu if open
+                mainNav.classList.remove('active');
+                mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
                 
-                // Scroll to top of page
-                window.scrollTo(0, 0);
+                // Scroll to top
+                window.scrollTo({top: 0, behavior: 'smooth'});
+                
+                // Update URL
+                history.pushState(null, null, `#${targetId}`);
             });
         });
         
         // Handle initial page load based on URL hash
         window.addEventListener('DOMContentLoaded', () => {
             const hash = window.location.hash.substring(1) || 'home';
+            
+            // Update active nav link
+            navLinks.forEach(navLink => navLink.classList.remove('active'));
+            const activeLink = document.querySelector(`.nav-link[href="#${hash}"]`);
+            if (activeLink) {
+                activeLink.classList.add('active');
+            } else {
+                document.querySelector('.nav-link[href="#home"]').classList.add('active');
+            }
             
             // Hide all pages
             document.querySelectorAll('.page').forEach(page => {
@@ -786,11 +938,93 @@
             }
         });
         
-        // Contact form submission
+        // Initialize Google Maps (using Leaflet as fallback)
+        function initMap() {
+            // Coordinates for 1029 Price St, Scranton, PA 18504
+            const valleyLocation = [41.4131168, -75.6784987];
+            
+            // Create map
+            const map = L.map('map').setView(valleyLocation, 15);
+            
+            // Add tile layer (OpenStreetMap)
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+            
+            // Add custom marker
+            const customIcon = L.divIcon({
+                className: 'custom-marker',
+                html: '<i class="fas fa-map-marker-alt" style="color: #0056b3; font-size: 40px;"></i>',
+                iconSize: [40, 40],
+                iconAnchor: [20, 40]
+            });
+            
+            // Add marker
+            L.marker(valleyLocation, {icon: customIcon}).addTo(map)
+                .bindPopup('<b>Valley Electrical & Plumbing</b><br>1029 Price St, Scranton, PA 18504')
+                .openPopup();
+        }
+        
+        // Initialize map when page loads
+        window.addEventListener('load', initMap);
+        
+        // Contact form submission with EmailJS - YOU NEED TO SET THIS UP
         document.getElementById('contactForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            alert('Thank you for your message! We will contact you within 24 hours.');
-            this.reset();
+            
+            // Get form values
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const serviceType = document.getElementById('serviceType').value;
+            const message = document.getElementById('message').value;
+            const submitBtn = document.getElementById('submitBtn');
+            const formMessage = document.getElementById('formMessage');
+            
+            // Show loading state
+            submitBtn.innerHTML = 'Sending...';
+            submitBtn.disabled = true;
+            
+            // Simulate form submission (replace with actual EmailJS integration)
+            setTimeout(() => {
+                // Success simulation
+                formMessage.textContent = `Thank you ${name}! Your message has been sent successfully. We will contact you within 24 hours.`;
+                formMessage.className = 'form-message success';
+                
+                // Reset form
+                document.getElementById('contactForm').reset();
+                
+                // Reset button
+                submitBtn.innerHTML = 'Send Message';
+                submitBtn.disabled = false;
+                
+                // Hide message after 5 seconds
+                setTimeout(() => {
+                    formMessage.className = 'form-message';
+                }, 5000);
+                
+                // In a real implementation, you would use EmailJS here
+                // Example EmailJS code (you need to set up your account):
+                /*
+                emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
+                    from_name: name,
+                    from_email: email,
+                    phone: phone,
+                    service_type: serviceType,
+                    message: message,
+                    to_email: "YOUR_EMAIL@DOMAIN.COM"
+                })
+                .then(function(response) {
+                    formMessage.textContent = "Thank you! Your message has been sent successfully.";
+                    formMessage.className = 'form-message success';
+                    document.getElementById('contactForm').reset();
+                }, function(error) {
+                    formMessage.textContent = "Failed to send message. Please try again or call us directly.";
+                    formMessage.className = 'form-message error';
+                });
+                */
+                
+            }, 1500);
         });
         
         // Sticky header on scroll
