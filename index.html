@@ -852,38 +852,69 @@
 
     <!-- Leaflet JS for Map -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script>
-        // Mobile Menu Toggle - FIXED
-        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        const mainNav = document.getElementById('mainNav');
-        const navLinks = document.querySelectorAll('.nav-link');
-        
-        mobileMenuBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            mainNav.classList.toggle('active');
-            mobileMenuBtn.innerHTML = mainNav.classList.contains('active') 
-                ? '<i class="fas fa-times"></i>' 
-                : '<i class="fas fa-bars"></i>';
-        });
-        
-        // Close mobile menu when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!mainNav.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+   <script>
+    // Mobile Menu Toggle - FIXED
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mainNav = document.getElementById('mainNav');
+    const navLinks = document.querySelectorAll('.nav-link');
+    
+    mobileMenuBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        mainNav.classList.toggle('active');
+        mobileMenuBtn.innerHTML = mainNav.classList.contains('active') 
+            ? '<i class="fas fa-times"></i>' 
+            : '<i class="fas fa-bars"></i>';
+    });
+    
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!mainNav.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+            mainNav.classList.remove('active');
+            mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+        }
+    });
+    
+    // FIXED NAVIGATION SYSTEM
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href').substring(1);
+            
+            // Update active nav link
+            navLinks.forEach(navLink => navLink.classList.remove('active'));
+            this.classList.add('active');
+            
+            // SPECIAL CASES FOR HOME PAGE SECTIONS
+            // These IDs exist as sections within the homepage, not as separate pages
+            const homeSectionIds = ['services', 'gallery', 'contact'];
+            
+            if (homeSectionIds.includes(targetId)) {
+                // These are sections within the homepage
+                // Show the homepage
+                document.querySelectorAll('.page').forEach(page => {
+                    page.classList.remove('active');
+                });
+                document.getElementById('home').classList.add('active');
+                
+                // Close mobile menu if open
                 mainNav.classList.remove('active');
                 mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
-            }
-        });
-        
-        // Navigation with smooth scrolling and page switching - FIXED
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href').substring(1);
                 
-                // Update active nav link
-                navLinks.forEach(navLink => navLink.classList.remove('active'));
-                this.classList.add('active');
-                
+                // Now scroll to the section within the homepage
+                setTimeout(() => {
+                    const targetSection = document.getElementById(targetId);
+                    if (targetSection) {
+                        const headerHeight = document.querySelector('header').offsetHeight;
+                        const targetPosition = targetSection.offsetTop - headerHeight;
+                        
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                }, 100);
+            } else {
+                // These are separate pages (like services-page, about)
                 // Hide all pages
                 document.querySelectorAll('.page').forEach(page => {
                     page.classList.remove('active');
@@ -903,139 +934,142 @@
                 mainNav.classList.remove('active');
                 mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
                 
-                // Scroll to top
+                // Scroll to top of the page
                 window.scrollTo({top: 0, behavior: 'smooth'});
-                
-                // Update URL
-                history.pushState(null, null, `#${targetId}`);
-            });
-        });
-        
-        // Handle initial page load based on URL hash
-        window.addEventListener('DOMContentLoaded', () => {
-            const hash = window.location.hash.substring(1) || 'home';
-            
-            // Update active nav link
-            navLinks.forEach(navLink => navLink.classList.remove('active'));
-            const activeLink = document.querySelector(`.nav-link[href="#${hash}"]`);
-            if (activeLink) {
-                activeLink.classList.add('active');
-            } else {
-                document.querySelector('.nav-link[href="#home"]').classList.add('active');
             }
             
-            // Hide all pages
+            // Update URL
+            history.pushState(null, null, `#${targetId}`);
+        });
+    });
+    
+    // Handle initial page load based on URL hash
+    window.addEventListener('DOMContentLoaded', () => {
+        const hash = window.location.hash.substring(1) || 'home';
+        
+        // Update active nav link
+        navLinks.forEach(navLink => navLink.classList.remove('active'));
+        const activeLink = document.querySelector(`.nav-link[href="#${hash}"]`);
+        if (activeLink) {
+            activeLink.classList.add('active');
+        } else {
+            document.querySelector('.nav-link[href="#home"]').classList.add('active');
+        }
+        
+        // Handle special cases for homepage sections
+        const homeSectionIds = ['services', 'gallery', 'contact'];
+        
+        if (homeSectionIds.includes(hash)) {
+            // Show homepage
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById('home').classList.add('active');
+            
+            // Scroll to the section after page loads
+            setTimeout(() => {
+                const targetSection = document.getElementById(hash);
+                if (targetSection) {
+                    const headerHeight = document.querySelector('header').offsetHeight;
+                    const targetPosition = targetSection.offsetTop - headerHeight;
+                    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            }, 300);
+        } else {
+            // Regular page navigation
             document.querySelectorAll('.page').forEach(page => {
                 page.classList.remove('active');
             });
             
-            // Show the correct page
             const targetPage = document.getElementById(hash);
             if (targetPage) {
                 targetPage.classList.add('active');
             } else {
                 document.getElementById('home').classList.add('active');
             }
-        });
-        
-        // Initialize Google Maps (using Leaflet as fallback)
-        function initMap() {
-            // Coordinates for 1029 Price St, Scranton, PA 18504
-            const valleyLocation = [41.4131168, -75.6784987];
-            
-            // Create map
-            const map = L.map('map').setView(valleyLocation, 15);
-            
-            // Add tile layer (OpenStreetMap)
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            }).addTo(map);
-            
-            // Add custom marker
-            const customIcon = L.divIcon({
-                className: 'custom-marker',
-                html: '<i class="fas fa-map-marker-alt" style="color: #0056b3; font-size: 40px;"></i>',
-                iconSize: [40, 40],
-                iconAnchor: [20, 40]
-            });
-            
-            // Add marker
-            L.marker(valleyLocation, {icon: customIcon}).addTo(map)
-                .bindPopup('<b>Valley Electrical & Plumbing</b><br>1029 Price St, Scranton, PA 18504')
-                .openPopup();
         }
+    });
+    
+    // Initialize Google Maps (using Leaflet as fallback)
+    function initMap() {
+        // Coordinates for 1029 Price St, Scranton, PA 18504
+        const valleyLocation = [41.4131168, -75.6784987];
         
-        // Initialize map when page loads
-        window.addEventListener('load', initMap);
+        // Create map
+        const map = L.map('map').setView(valleyLocation, 15);
         
-        // Contact form submission with EmailJS - YOU NEED TO SET THIS UP
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
-            e.preventDefault();
+        // Add tile layer (OpenStreetMap)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+        
+        // Add custom marker
+        const customIcon = L.divIcon({
+            className: 'custom-marker',
+            html: '<i class="fas fa-map-marker-alt" style="color: #0056b3; font-size: 40px;"></i>',
+            iconSize: [40, 40],
+            iconAnchor: [20, 40]
+        });
+        
+        // Add marker
+        L.marker(valleyLocation, {icon: customIcon}).addTo(map)
+            .bindPopup('<b>Valley Electrical & Plumbing</b><br>1029 Price St, Scranton, PA 18504')
+            .openPopup();
+    }
+    
+    // Initialize map when page loads
+    window.addEventListener('load', initMap);
+    
+    // Contact form submission with EmailJS - YOU NEED TO SET THIS UP
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Get form values
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const phone = document.getElementById('phone').value;
+        const serviceType = document.getElementById('serviceType').value;
+        const message = document.getElementById('message').value;
+        const submitBtn = document.getElementById('submitBtn');
+        const formMessage = document.getElementById('formMessage');
+        
+        // Show loading state
+        submitBtn.innerHTML = 'Sending...';
+        submitBtn.disabled = true;
+        
+        // Simulate form submission (replace with actual EmailJS integration)
+        setTimeout(() => {
+            // Success simulation
+            formMessage.textContent = `Thank you ${name}! Your message has been sent successfully. We will contact you within 24 hours.`;
+            formMessage.className = 'form-message success';
             
-            // Get form values
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const phone = document.getElementById('phone').value;
-            const serviceType = document.getElementById('serviceType').value;
-            const message = document.getElementById('message').value;
-            const submitBtn = document.getElementById('submitBtn');
-            const formMessage = document.getElementById('formMessage');
+            // Reset form
+            document.getElementById('contactForm').reset();
             
-            // Show loading state
-            submitBtn.innerHTML = 'Sending...';
-            submitBtn.disabled = true;
+            // Reset button
+            submitBtn.innerHTML = 'Send Message';
+            submitBtn.disabled = false;
             
-            // Simulate form submission (replace with actual EmailJS integration)
+            // Hide message after 5 seconds
             setTimeout(() => {
-                // Success simulation
-                formMessage.textContent = `Thank you ${name}! Your message has been sent successfully. We will contact you within 24 hours.`;
-                formMessage.className = 'form-message success';
-                
-                // Reset form
-                document.getElementById('contactForm').reset();
-                
-                // Reset button
-                submitBtn.innerHTML = 'Send Message';
-                submitBtn.disabled = false;
-                
-                // Hide message after 5 seconds
-                setTimeout(() => {
-                    formMessage.className = 'form-message';
-                }, 5000);
-                
-                // In a real implementation, you would use EmailJS here
-                // Example EmailJS code (you need to set up your account):
-                /*
-                emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
-                    from_name: name,
-                    from_email: email,
-                    phone: phone,
-                    service_type: serviceType,
-                    message: message,
-                    to_email: "YOUR_EMAIL@DOMAIN.COM"
-                })
-                .then(function(response) {
-                    formMessage.textContent = "Thank you! Your message has been sent successfully.";
-                    formMessage.className = 'form-message success';
-                    document.getElementById('contactForm').reset();
-                }, function(error) {
-                    formMessage.textContent = "Failed to send message. Please try again or call us directly.";
-                    formMessage.className = 'form-message error';
-                });
-                */
-                
-            }, 1500);
-        });
-        
-        // Sticky header on scroll
-        window.addEventListener('scroll', () => {
-            const header = document.querySelector('header');
-            if (window.scrollY > 100) {
-                header.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
-            } else {
-                header.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
-            }
-        });
-    </script>
+                formMessage.className = 'form-message';
+            }, 5000);
+        }, 1500);
+    });
+    
+    // Sticky header on scroll
+    window.addEventListener('scroll', () => {
+        const header = document.querySelector('header');
+        if (window.scrollY > 100) {
+            header.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
+        } else {
+            header.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+        }
+    });
+</script>
 </body>
 </html>
